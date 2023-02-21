@@ -34,15 +34,31 @@ CREATE_TABLE_COCKTAIL_DRINKS = """CREATE TABLE IF NOT EXISTS cocktail_drinks (
 
 CREATE_TABLE_INGREDIENTS = """CREATE TABLE IF NOT EXISTS ingredients (
                                 id INTEGER PRIMARY KEY,
-                                ingredients_name TEXT NOT NULL,
-                                ingredients_unit TEXT NOT NULL
+                                ingredients_name TEXT NOT NULL
+                                );"""
+
+CREATE_TABLE_MEASUREMENTS = """CREATE TABLE IF NOT EXISTS measurements (
+                                id INTEGER PRIMARY KEY,
+                                measurement_name TEXT NOT NULL,
+                                measurement_symbol TEXT NOT NULL
                                 );"""
 
 CREATE_TABLE_COCKTAIL_INGREDIENTS = """CREATE TABLE IF NOT EXISTS cocktail_ingredients (
                                 drink_id TEXT NOT NULL,
                                 ingredients_id TEXT NOT NULL,
-                                measure TEXT NOT NULL,
-                                PRIMARY KEY (drink_id, ingredients_id)
+                                quantity TEXT NOT NULL,
+                                measurement_unit_id TEXT NOT NULL,
+                                PRIMARY KEY (drink_id, ingredients_id),
                                 FOREIGN KEY (drink_id) REFERENCES cocktail_drinks (id),
-                                FOREIGN KEY (ingredients_id) REFERENCES ingredients (id)
+                                FOREIGN KEY (ingredients_id) REFERENCES ingredients (id),
+                                FOREIGN KEY (measurement_unit_id) REFERENCES measurements (id),
+                                );"""
+
+CREATE_TABLE_MEASUREMENT_CONVERSION = """CREATE TABLE IF NOT EXISTS measurement_conversion (
+                                id INTEGER PRIMARY KEY,
+                                measurement_from_id TEXT NOT NULL,
+                                measurement_to_id TEXT NOT NULL,
+                                conversion_multiplying_factor REAL NOT NULL,
+                                FOREIGN KEY (measurement_from_id) REFERENCES measurements (id),
+                                FOREIGN KEY (measurement_to_id) REFERENCES measurements (id),
                                 );"""

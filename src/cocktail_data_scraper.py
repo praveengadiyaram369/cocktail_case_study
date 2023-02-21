@@ -40,7 +40,9 @@ def create_db_tables():
     try:
         create_table(CREATE_TABLE_COCKTAIL_DRINKS, 'cocktail_drinks')
         create_table(CREATE_TABLE_INGREDIENTS, 'ingredients')
+        create_table(CREATE_TABLE_MEASUREMENTS, 'measurements')
         create_table(CREATE_TABLE_COCKTAIL_INGREDIENTS, 'cocktail_ingredients')
+        create_table(CREATE_TABLE_MEASUREMENT_CONVERSION, 'measure_conversion')
 
     except Exception as e:
         logging.error(e)
@@ -55,8 +57,16 @@ def insert_data_to_db():
     logging.info('Starting cocktail_data_scraper [insert_data_to_db] ....... ')
 
     try:
-        create_tables()
+        #create_db_tables()
+        for filename in os.listdir(DOWNLOAD_DATA_FILEPATH):
+            if '.json' in filename:
+                data = read_data_from_file(DOWNLOAD_DATA_FILEPATH+filename)
+                drinks_list = data['drinks']
 
+                for drink in drinks_list:
+                    print(drink)
+                    break
+            break
     except Exception as e:
         logging.error(e)
         logging.error(traceback.format_exc())
