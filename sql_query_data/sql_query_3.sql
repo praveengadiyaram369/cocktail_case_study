@@ -1,6 +1,6 @@
 WITH temp_data
      AS (SELECT DISTINCT ctd.drink_name            AS drink_name,
-                         Count(cti.ingredients_id) AS ing_count
+                         Count(DISTINCT cti.ingredients_id) AS ing_count
          FROM   cocktail_drinks AS ctd
                 INNER JOIN cocktail_ingredients AS cti
                         ON ctd.id = cti.drink_id
